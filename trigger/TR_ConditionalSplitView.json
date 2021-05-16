@@ -1,0 +1,17 @@
+{
+	"name": "TR_ConditionalSplitView",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2021-05-13T08:05:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"name": "StudiesLocalServerLinkedServices",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=dvertex.czpxspzvruyq.ap-south-1.rds.amazonaws.com;initial catalog=mytracks2;user id=Indirapuram",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4MGQzZDNhNi1jN2MyLTRiMjUtYTE3NC02NDZlOThhZjI3NGYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IR-selfhosted",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

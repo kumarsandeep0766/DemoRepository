@@ -1,0 +1,37 @@
+{
+	"name": "SqlServerTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"database": "master",
+				"server": "covid-srvs.database.windows.net",
+				"password": "Malik@123~",
+				"username": "master"
+			}
+		},
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			},
+			"databasename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().databasename",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,39 @@
+{
+	"name": "DF_emp_surrogatekey",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "emp_surrogatekey",
+						"type": "DatasetReference"
+					},
+					"name": "empsurrogatekey"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SurrogateKey1"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				}
+			],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> empsurrogatekey\nempsurrogatekey keyGenerate(output(EmpKey as long),\n\tstartAt: 1L) ~> SurrogateKey1\nMapDrifted1 select(mapColumn(\n\t\tEmpKey,\n\t\tname,\n\t\tcountry,\n\t\tdepartment\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSurrogateKey1 derive(name = toString(byName('name')),\n\t\tcountry = toString(byName('country')),\n\t\tdepartment = toString(byName('department'))) ~> MapDrifted1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Output_emp_surrogatekey.txt'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

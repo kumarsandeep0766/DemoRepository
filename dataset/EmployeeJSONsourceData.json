@@ -1,0 +1,21 @@
+{
+	"name": "EmployeeJSONsourceData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linkedservice_storageaccount_maheer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "EmployeesJsonFile.json",
+				"folderPath": "Input",
+				"container": "adfdemo"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

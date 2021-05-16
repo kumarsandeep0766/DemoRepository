@@ -1,0 +1,32 @@
+{
+	"name": "DF_WindowFunction",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "NewEmployee1_csv",
+						"type": "DatasetReference"
+					},
+					"name": "WindowFunction"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "WindowFun"
+				}
+			],
+			"script": "source(output(\n\t\tId as integer,\n\t\tname as string,\n\t\tgender as string,\n\t\tcountry as string,\n\t\tSalary as integer '000',\n\t\tdepartment as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> WindowFunction\nWindowFunction window(over(WF_department = department),\n\tdesc(Salary, true),\n\tAvgSalary = avg(Salary),\n\t\tDenseRank = denseRank()) ~> WindowFun\nWindowFun sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['OutputWindoFunction.csv'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}

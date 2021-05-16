@@ -1,0 +1,19 @@
+{
+	"name": "OuputDataDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linkedservice_storageaccount_maheer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "Output",
+				"container": "adfdemo"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

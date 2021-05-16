@@ -1,0 +1,19 @@
+{
+	"name": "sqldb",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"database": "covid-db",
+				"server": "covid-srvs.database.windows.net",
+				"password": "Malik@123~",
+				"username": "master"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,49 @@
+{
+	"name": "DF_Exists",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "EmpTable"
+				},
+				{
+					"dataset": {
+						"referenceName": "DepartmentCsvSourceFile",
+						"type": "DatasetReference"
+					},
+					"name": "DeptTable"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "sinkExistINEmpDept"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "sinkDosentExistINEmpAndDepa"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectExist"
+				},
+				{
+					"name": "DosentExisted"
+				}
+			],
+			"script": "source(output(\n\t\tempid as string,\n\t\tname as string,\n\t\tcountry as string,\n\t\tdepartment as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> EmpTable\nsource(output(\n\t\tdeptid as string,\n\t\tdepname as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DeptTable\nEmpTable, DeptTable exists(department == deptid,\n\tnegate:false,\n\tbroadcast: 'auto')~> SelectExist\nDeptTable, EmpTable exists(depname == department,\n\tnegate:true,\n\tbroadcast: 'auto')~> DosentExisted\nSelectExist sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['ExistINEmployeeAndDepartment.txt'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sinkExistINEmpDept\nDosentExisted sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DosentExistedINEmployeeAndDepartment.txt'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sinkDosentExistINEmpAndDepa"
+		}
+	}
+}

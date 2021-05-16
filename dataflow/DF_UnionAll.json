@@ -1,0 +1,53 @@
+{
+	"name": "DF_UnionAll",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "HR_Emp",
+						"type": "DatasetReference"
+					},
+					"name": "HREmp"
+				},
+				{
+					"dataset": {
+						"referenceName": "OtherEmp",
+						"type": "DatasetReference"
+					},
+					"name": "OtherEmp"
+				},
+				{
+					"dataset": {
+						"referenceName": "ITemp",
+						"type": "DatasetReference"
+					},
+					"name": "ITemp"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "AllEmp"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "TestForExcelOutput",
+						"type": "DatasetReference"
+					},
+					"name": "sinkOutput"
+				}
+			],
+			"transformations": [
+				{
+					"name": "UnionAllSourceData"
+				}
+			],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> HREmp\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> OtherEmp\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ITemp\nsource(output(\n\t\tempid as string,\n\t\tname as string,\n\t\tcountry as string,\n\t\tdepartment as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> AllEmp\nHREmp, OtherEmp, ITemp, AllEmp union(byName: true,\n\tpartitionBy('hash', 1))~> UnionAllSourceData\nUnionAllSourceData sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['UnionAllDataOutpuut.csv'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sinkOutput"
+		}
+	}
+}

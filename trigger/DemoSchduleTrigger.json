@@ -1,0 +1,25 @@
+{
+	"name": "DemoSchduleTrigger",
+	"properties": {
+		"description": "Daly Trigger",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Caopy Data In same Storage",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 1,
+				"startTime": "2021-04-26T09:48:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

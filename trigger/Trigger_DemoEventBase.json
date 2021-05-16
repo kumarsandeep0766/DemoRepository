@@ -1,0 +1,29 @@
+{
+	"name": "Trigger_DemoEventBase",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Caopy Data In same Storage",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"SourcePath": "@triggerBody().folderPath",
+					"SourceTime": "@triggerBody().filename"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/adfdemo/blobs/Input",
+			"blobPathEndsWith": ".txt",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/66a74bc4-2648-4af8-aa36-74b3dcd2cb13/resourceGroups/TestEnvironement/providers/Microsoft.Storage/storageAccounts/storagedemomaheers",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "SP TESTING",
+	"properties": {
+		"activities": [
+			{
+				"name": "Stored procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "PROCEDURE",
+						"value": "TESTING"
+					}
+				],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[AZURE_TESTING]"
+				},
+				"linkedServiceName": {
+					"referenceName": "StudiesLocalServerLinkedServices",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-05-03T04:41:57Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

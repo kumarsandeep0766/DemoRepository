@@ -1,0 +1,45 @@
+{
+	"name": "PL_DynamicParameterOnFilter",
+	"properties": {
+		"activities": [
+			{
+				"name": "FilterDataFlow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_Parameter",
+						"type": "DataFlowReference",
+						"parameters": {
+							"InputParameter": {
+								"value": "'@{pipeline().parameters.InParameter}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"InParameter": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-05-15T17:39:08Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

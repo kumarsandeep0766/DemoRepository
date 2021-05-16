@@ -1,0 +1,9 @@
+{
+	"name": "ADFdemoMAHEERs",
+	"location": "eastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6d7daf0d-6643-4b97-b457-7edb9cac5360",
+		"tenantId": "a5939795-389d-48bd-aeda-f70b13bbbab6"
+	}
+}

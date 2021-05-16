@@ -1,0 +1,32 @@
+{
+	"name": "DF_Short",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "NewEmployeeSourceCSV",
+						"type": "DatasetReference"
+					},
+					"name": "Source"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "SortOutput"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SortSourceData"
+				}
+			],
+			"script": "source(output(\n\t\tempid as string,\n\t\tname as string,\n\t\tcountry as string,\n\t\tdepartment as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Source\nSource sort(asc(country, true),\n\tcaseInsensitive: true) ~> SortSourceData\nSortSourceData sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['SortOutput.txt'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SortOutput"
+		}
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"name": "DF_DrivedColumn",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "NewEmployeeSourceCSV",
+						"type": "DatasetReference"
+					},
+					"name": "NewEmployeeSourceCSV"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "TestAggrigateOutput",
+						"type": "DatasetReference"
+					},
+					"name": "SinkDrivedColumn"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DrivedColumnNewEmployeeSourceCSV"
+				}
+			],
+			"script": "source(output(\n\t\tempid as string,\n\t\tname as string,\n\t\tcountry as string,\n\t\tdepartment as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> NewEmployeeSourceCSV\nNewEmployeeSourceCSV derive(country = upper(country),\n\t\tCountryName = iif(isNull(country), 'Unknown', upper(country))) ~> DrivedColumnNewEmployeeSourceCSV\nDrivedColumnNewEmployeeSourceCSV sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DrivedColumnNewEmployeeSourceCSV.txt'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SinkDrivedColumn"
+		}
+	}
+}

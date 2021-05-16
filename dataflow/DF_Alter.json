@@ -1,0 +1,32 @@
+{
+	"name": "DF_Alter",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "NewEmployee1_csv",
+						"type": "DatasetReference"
+					},
+					"name": "AlterSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SQL_Testing_DB_String",
+						"type": "DatasetReference"
+					},
+					"name": "SQLsinkOutput"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AlterSourceRow"
+				}
+			],
+			"script": "source(output(\n\t\tId as integer,\n\t\tname as string,\n\t\tgender as string,\n\t\tcountry as string,\n\t\tSalary as integer,\n\t\tdepartment as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> AlterSource\nAlterSource alterRow(deleteIf(department=='HR')) ~> AlterSourceRow\nAlterSourceRow sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tNAAME = name,\n\t\tGENDER = gender,\n\t\tCOUNTRY = country,\n\t\tSALARY = Salary,\n\t\tDEPT = department\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> SQLsinkOutput"
+		}
+	}
+}

@@ -1,0 +1,25 @@
+{
+	"name": "NewEmployee1_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_NewContainer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Employee1.csv",
+				"folderPath": "In",
+				"container": "newadfdemocontainer"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

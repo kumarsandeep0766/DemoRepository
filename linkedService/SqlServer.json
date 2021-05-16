@@ -1,0 +1,29 @@
+{
+	"name": "SqlServer",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"database": {
+				"type": "string",
+				"defaultValue": "covid-db"
+			},
+			"server": {
+				"type": "string",
+				"defaultValue": "covid-srvs.database.windows.net"
+			},
+			"password": {
+				"type": "string",
+				"defaultValue": "Malik@123~"
+			},
+			"username": {
+				"type": "string",
+				"defaultValue": "master"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Data Source=@{linkedService().server};Initial Catalog=@{linkedService().database};User ID=@{linkedService().username};Password=@{linkedService().password}"
+		}
+	}
+}
