@@ -18,7 +18,7 @@
 				}
 			],
 			"transformations": [],
-			"script": "source(output(\n\t\tID as integer,\n\t\tGENDER as string,\n\t\tSALARY as integer,\n\t\tDEPT as string,\n\t\tCOUNTRY as string,\n\t\tNAAME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> EMPSINCACHE\nEMPSINCACHE sink(mapColumn(\n\t\tGENDER,\n\t\tSALARY,\n\t\tDEPT,\n\t\tCOUNTRY,\n\t\tNAAME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tstore: 'cache',\n\tformat: 'inline',\n\toutput: false,\n\tsaveOrder: 1) ~> sink1"
+			"script": "source(output(\n\t\tID as integer,\n\t\tGENDER as string,\n\t\tSALARY as integer,\n\t\tDEPT as string,\n\t\tCOUNTRY as string,\n\t\tNAAME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select max(ID) as MaxEmpID from DBO.EMP',\n\tformat: 'query') ~> EMPSINCACHE\nEMPSINCACHE sink(mapColumn(\n\t\tGENDER,\n\t\tSALARY,\n\t\tDEPT,\n\t\tCOUNTRY,\n\t\tNAAME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tstore: 'cache',\n\tformat: 'inline',\n\toutput: false,\n\tsaveOrder: 1) ~> sink1"
 		}
 	}
 }
