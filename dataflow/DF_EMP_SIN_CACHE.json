@@ -1,0 +1,24 @@
+{
+	"name": "DF_EMP_SIN_CACHE",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_EMP_SIN_CACHE",
+						"type": "DatasetReference"
+					},
+					"name": "EMPSINCACHE"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tGENDER as string,\n\t\tSALARY as integer,\n\t\tDEPT as string,\n\t\tCOUNTRY as string,\n\t\tNAAME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tlimit: 100) ~> EMPSINCACHE\nEMPSINCACHE sink(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tstore: 'cache',\n\tformat: 'inline',\n\toutput: false,\n\tsaveOrder: 1) ~> sink1"
+		}
+	}
+}
