@@ -10,15 +10,29 @@
 						"type": "DatasetReference"
 					},
 					"name": "EMPSINCACHE"
+				},
+				{
+					"dataset": {
+						"referenceName": "EmpCsvSourceFile",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
 				}
 			],
 			"sinks": [
 				{
 					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [],
-			"script": "source(output(\n\t\tID as integer,\n\t\tGENDER as string,\n\t\tSALARY as integer,\n\t\tDEPT as string,\n\t\tCOUNTRY as string,\n\t\tNAAME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tisolationLevel: 'READ_COMMITTED',\n\tquery: 'select max(ID) as MaxEmpID from dbo.EMP;',\n\tformat: 'query') ~> EMPSINCACHE\nEMPSINCACHE sink(mapColumn(\n\t\tGENDER,\n\t\tSALARY,\n\t\tDEPT,\n\t\tCOUNTRY,\n\t\tNAAME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tstore: 'cache',\n\tformat: 'inline',\n\toutput: false,\n\tsaveOrder: 1) ~> sink1"
+			"script": "source(output(\n\t\tID as integer,\n\t\tGENDER as string,\n\t\tSALARY as integer,\n\t\tDEPT as string,\n\t\tCOUNTRY as string,\n\t\tNAAME as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tisolationLevel: 'READ_COMMITTED',\n\tquery: 'select max(ID) as MaxEmpID from dbo.EMP;',\n\tformat: 'query') ~> EMPSINCACHE\nsource(output(\n\t\tempid as string,\n\t\tname as string,\n\t\tcountry as string,\n\t\tdepartment as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nEMPSINCACHE sink(mapColumn(\n\t\tGENDER,\n\t\tSALARY,\n\t\tDEPT,\n\t\tCOUNTRY,\n\t\tNAAME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tstore: 'cache',\n\tformat: 'inline',\n\toutput: false,\n\tsaveOrder: 1) ~> sink1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Testing.txt'],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink2"
 		}
 	}
 }
