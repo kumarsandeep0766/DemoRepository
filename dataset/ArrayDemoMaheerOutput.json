@@ -18,8 +18,7 @@
 				"folderPath": {
 					"value": "@dataset().FolderName",
 					"type": "Expression"
-				},
-				"container": "adfdemo"
+				}
 			}
 		}
 	},
